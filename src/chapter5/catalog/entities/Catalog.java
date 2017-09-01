@@ -31,13 +31,13 @@ public class Catalog {
         String name;
         String catalogID;
         boolean isTaken;
-        StringBuilder history;
-
+        List<String> history = new ArrayList<String> (); 
+        
         public Book(String name, String catalogID) {
             this.name = name;
             this.catalogID = catalogID;
             isTaken = false;
-            history = new StringBuilder();
+            
         }
     }
 
@@ -51,10 +51,7 @@ public class Catalog {
                 if (currentBook.isTaken) continue;
                 else {
                     currentBook.isTaken = true;
-                    currentBook.history.append(readerId);
-                    currentBook.history.append(" take ");
-                    currentBook.history.append(new Date());
-                    currentBook.history.append("\r\n");
+                    currentBook.history.add(readerId + " take " + new Date());
                     return currentBook.catalogID;
                 }
             }
@@ -74,10 +71,7 @@ public class Catalog {
             if (currentBook.catalogID.equals(bookId)){
                 if (currentBook.isTaken) {
                     currentBook.isTaken = false;
-                    currentBook.history.append(readerId);
-                    currentBook.history.append(" return ");
-                    currentBook.history.append(new Date());
-                    currentBook.history.append("\r\n");
+                    currentBook.history.add(readerId + " return " + new Date());
                     return;
                 }
                 break;
@@ -92,7 +86,11 @@ public class Catalog {
         for (Book book : books){
             catalogLog.append(book.name);
             catalogLog.append("\r\n");
-            catalogLog.append(book.history);
+            for (String string: book.history) {
+                catalogLog.append(string);
+                catalogLog.append("\r\n");
+                
+            }
         }
 
         return catalogLog.toString();
